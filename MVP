@@ -1,0 +1,68 @@
+#define echoPin1 5 
+#define trigPin1 4 
+#define echoPin2 7 
+#define trigPin2 6
+
+unsigned int duracao1=0;
+unsigned int distanciaCM1=0;
+unsigned int duracao2=0;
+unsigned int distanciaCM2=0;
+int i;
+
+void setup() {
+	pinMode(echoPin1,INPUT);
+	pinMode(trigPin1,OUTPUT);
+	pinMode(echoPin2,INPUT);
+	pinMode(trigPin2,OUTPUT);
+	pinMode(12, OUTPUT);
+	pinMode(13, OUTPUT);
+	pinMode(11, OUTPUT);
+	Serial.begin(9600);
+}
+
+void loop() {
+ //Sensor 1 Loop:
+	 digitalWrite(trigPin1,HIGH);
+	 delayMicroseconds(10);
+	 digitalWrite(trigPin1,LOW);
+
+	 duracao1=pulseIn(echoPin1,HIGH);
+
+	 distanciaCM1=duracao1*0.01719445; 
+	 Serial.print("Sensor 1:");
+	 Serial.print(distanciaCM1);
+	 Serial.println("cm");
+	 delay(100);
+		if(distanciaCM1 > 150){
+			digitalWrite(12, HIGH);
+			for(i=0;i<1;i++){
+			digitalWrite(11, HIGH);
+			delay(5000);
+			digitalWrite(11, LOW);
+		}
+		}else
+			if(distanciaCM1 <=150){
+			digitalWrite(12, LOW);
+			digitalWrite(11, LOW);
+		}
+
+	 //Sensor 2 Loop:
+	 digitalWrite(trigPin2,HIGH);
+	 delayMicroseconds(10);
+	 digitalWrite(trigPin2,LOW);
+
+	 duracao2=pulseIn(echoPin2,HIGH);
+
+	 distanciaCM2=duracao2*0.01719445; 
+	 Serial.print("Sensor 2:");
+	 Serial.print(distanciaCM2);
+	 Serial.println("cm");
+	 delay(100);
+		if(distanciaCM2 > 150){
+			digitalWrite(13, HIGH);
+		}else
+			if(distanciaCM2 <=150){
+			digitalWrite(13, LOW);
+			digitalWrite(11, LOW);
+		}
+}
